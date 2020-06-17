@@ -20,12 +20,17 @@
 import PerfectHTTP
 import PerfectHTTPServer
  
+
+var broj = 0
+
 // Register your own routes and handlers
 var routes = Routes()
 routes.add(method: .get, uri: "/") {
     request, response in
     response.setHeader(.contentType, value: "application/json")
-    let jsonResponse: [String: Any] = ["Alive": true]
+    let jsonResponse: [String: Any] = ["Alive": true , "Broj": broj]
+    
+    broj = 0
     
     do{
         try response.setBody(json: jsonResponse)
@@ -35,6 +40,7 @@ routes.add(method: .get, uri: "/") {
     response.completed()
     
 }
+
 
 
 routes.add(method: .post, uri: "/add") { request, response in
@@ -67,7 +73,8 @@ routes.add(method: .post, uri: "/a") {
        
     if let operandOne = request.param(name: "operandOne"){
         if let lhs = Int(operandOne){
-            responsePayload["sum"] = lhs
+             broj += lhs
+            responsePayload["sum"] = broj
         }
     }
 
